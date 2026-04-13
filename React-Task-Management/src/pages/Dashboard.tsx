@@ -5,6 +5,7 @@ import { useTasks } from '../state/TaskContext'
 export default function Dashboard() {
   const { tasks, addTask, editTask, toggleStatus, deleteTask, addSub, deleteSub } = useTasks()
   const [title, setTitle] = useState('')
+  const [subtitle, setSubtitle] = useState('')
   const [filter, setFilter] = useState('All')
 
   const visible = tasks.filter(t => filter === 'All' || t.status === filter)
@@ -19,11 +20,11 @@ export default function Dashboard() {
         <input value={title} onChange={e => setTitle(e.target.value)} placeholder="New task" />
         <button onClick={() => { addTask(title); setTitle('') }}>Add</button>
       </div>
-      
+      <hr />
       <div className="row">
-        {['All','Pending','Completed'].map(f => <button key={f} onClick={() => setFilter(f)}>{f}</button>)}
+        Filter :- {['All','Pending','Completed'].map(f => <button key={f} onClick={() => setFilter(f)}>{f}</button>)}
       </div>
-      
+      <hr />
       {visible.map(t => (
         <div key={t.id} className="card">
           <input value={t.title} onChange={e => editTask(t.id, e.target.value)} />
@@ -39,7 +40,8 @@ export default function Dashboard() {
                     <button onClick={() => deleteSub(t.id, s.id)}>×</button>
                   </div>
                 ))}
-            <button onClick={() => addSub(t.id, 'New Sub Task')}>Add Sub</button>
+                <input value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="New subtask" />
+            <button onClick={() => {addSub(t.id, subtitle); setSubtitle('')}}>Add Sub</button>
           </div>
         </div>
       ))}

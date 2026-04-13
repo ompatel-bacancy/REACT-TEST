@@ -3,7 +3,7 @@ import { useTasks } from '../state/TaskContext'
 
 export default function TaskDetail() {
   const { taskId } = useParams()
-  const { tasks } = useTasks()
+  const { tasks,  deleteSub } = useTasks()
   const task = tasks.find((t:any) => t.id === taskId)
 
   if (!task) return <div className="page">Task not found</div>
@@ -16,7 +16,7 @@ export default function TaskDetail() {
       <hr />
       <h4>Sub Tasks</h4>
       <hr />
-      {task.subs.map((s:any) => <p key={s.id}>{s.text}</p>)}
+      {task.subs.map((s:any) => <p key={s.id}>{s.text} <button onClick={() => deleteSub(task.id, s.id)}>×</button></p>)}
     </div>
   )
 }
